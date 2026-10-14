@@ -1,0 +1,18 @@
+services:                    # список контейнеров, которые надо запустить
+  postgres:                  # имя сервиса (внутреннее, можешь назвать как угодно)
+    image: postgres:16       # готовый образ Postgres 16 из Docker Hub
+    container_name: otp-postgres  # как контейнер будет называться в `docker ps`
+    environment:             # переменные окружения для контейнера
+      POSTGRES_DB: otp       # создать БД с именем "otp"
+      POSTGRES_USER: otp     # создать пользователя "otp"
+      POSTGRES_PASSWORD: otp # пароль для него (в пет-проекте неважно, что простой)
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5432:5432"          # "порт-на-моём-компе : порт-в-контейнере"
+                             # 5432 — стандартный порт Postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data  # данные сохраняются в volume pgdata
+                                          # чтобы не потерялись при перезапуске
+
+volumes:                     # объявление volume
+  pgdata:
