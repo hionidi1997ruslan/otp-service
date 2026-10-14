@@ -1,3 +1,7 @@
+/*
+Настройка Entity для ьыстрого взаимодействия с БД
+*/
+
 package com.example.demo;
 
 import jakarta.persistence.Column;
