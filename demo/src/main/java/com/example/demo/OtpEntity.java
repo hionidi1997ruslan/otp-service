@@ -1,7 +1,3 @@
-/*
-Настройка Entity для ьыстрого взаимодействия с БД
-*/
-
 package com.example.demo;
 
 import jakarta.persistence.Column;
@@ -10,28 +6,30 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.util.UUID;
 
-@Entity // Говорим Hibernate: это класс-сущность, следи за ним
-@Table(name = "otp") // Явно указываем имя таблицы в БД
-
+// одна строка таблицы otp в виде java объекта
+@Entity              // hibernate будет мапить этот класс на таблицу
+@Table(name = "otp") // имя таблицы в бд
 public class OtpEntity {
 
-    @Id                                            // Это поле — PRIMARY KEY таблицы
-    private UUID id;                               // Тип UUID (в БД будет колонка uuid)
+    @Id              // первичный ключ
+    private UUID id; // в postgres колонка типа uuid
 
-    @Column(nullable = false)                      // Колонка code, NOT NULL
-    private String code;                           // Поле хранит OTP-код (в БД varchar)
+    @Column(nullable = false) // not null
+    private String code;      // сам код, в бд varchar
 
-    public OtpEntity() {}                          // Пустой конструктор — ОБЯЗАТЕЛЕН для Hibernate  // Hibernate создаёт объекты через reflection, ему нужен no-args
-          
-    public OtpEntity(UUID id, String code) {       // Удобный конструктор — чтобы создавать в одну строку
-        this.id = id;                              // Присваиваем id
-        this.code = code;                          // Присваиваем code
+    // пустой конструктор нужен hibernate, без него он не сможет создать объект при чтении из бд
+    public OtpEntity() {}
+
+    // конструктор чтобы создать запись одной строкой
+    public OtpEntity(UUID id, String code) {
+        this.id = id;
+        this.code = code;
     }
 
-    public UUID getId() { return id; }             // Геттер — Hibernate читает поле через него
-    public void setId(UUID id) { this.id = id; }   // Сеттер — Hibernate пишет через него
+    // геттеры и сеттеры
+    public UUID getId() { return id; }
+    public void setId(UUID id) { this.id = id; }
 
-    public String getCode() { return code; }       // Геттер code
-    public void setCode(String code) { this.code = code; }  // Сеттер code
-}                                        
-
+    public String getCode() { return code; }
+    public void setCode(String code) { this.code = code; }
+}
